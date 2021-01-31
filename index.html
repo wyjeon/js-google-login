@@ -8,23 +8,45 @@
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="462413149482-8ik7v2nfu91dgf51jdpq7ogj9t6skudd.apps.googleusercontent.com">
   <script>
+    function checkLoginStatus() {
+      var loginBtn = document.querySelector("#loginBtn");
+          if(gauth.isSignedIn.get()) {
+            console.log("logined");
+            loginBtn.value = "Logout";
+          } else {
+            console.log("logouted");
+            loginBtn.value = "Login";
+          }
+    }
     function init() {
       console.log("init");
       gapi.load('auth2', function() {
         console.log("auth2");
-        var gauth = gapi.auth2.init({
+        window.gauth = gapi.auth2.init({
           client_id: "462413149482-8ik7v2nfu91dgf51jdpq7ogj9t6skudd.apps.googleusercontent.com"
-        })
+        });
         gauth.then(function() {
           console.log("googleAuth success");
+          checkLoginStatus();
         }, function() {
           console.log("googleAuth fail");
-        })
+        });
       });
     }
   </script>
 </head>
 <body>
+  <input type="button" id="loginBtn" value="checking..." onClick="if(this.value === 'Login') {
+    gauth.signIn().then(function() {
+      console.log('gauth.signIn()');
+      checkLoginStatus();
+    });
+  } else {
+    gauth.signOut().then(function() {
+      console.log('gauth.signOut()');
+      checkLoginStatus();
+    });
+  }">
   <h1><a href="index.html">WEB</a></h1>
   <input id="night_day" type="button" value="night" onclick="
     nightDayHandler(this);
