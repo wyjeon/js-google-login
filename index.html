@@ -12,21 +12,19 @@
       console.log("init");
       gapi.load('auth2', function() {
         console.log("auth2");
+        var gauth = gapi.auth2.init({
+          client_id: "462413149482-8ik7v2nfu91dgf51jdpq7ogj9t6skudd.apps.googleusercontent.com"
+        })
+        gauth.then(function() {
+          console.log("googleAuth success");
+        }, function() {
+          console.log("googleAuth fail");
+        })
       });
-    }
-  </script>
-  <script>
-    function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     }
   </script>
 </head>
 <body>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
   <h1><a href="index.html">WEB</a></h1>
   <input id="night_day" type="button" value="night" onclick="
     nightDayHandler(this);
